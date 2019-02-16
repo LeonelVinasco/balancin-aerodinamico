@@ -1,7 +1,7 @@
 #include<Servo.h>
 
 Servo ESC;
-int vel = 1400; // Amplitud minima de pulso para tu ESC
+int vel = 1150; // Amplitud minima de pulso para tu ESC
 int datos[800];
 int contador=0;
 int cuentaPasos=0;
@@ -30,30 +30,33 @@ void loop() {
 ESC.writeMicroseconds(vel);
 //Serial.println("yaaaaaaaaa2");
  Serial.println(vel);
+ Serial.println("\t");
+ //Serial.println(analogRead(A0));
 if(contador>=1000){
 for(int i=0; i<800; i++){
  Serial.println(datos[i]);
  Serial.println('\t');
-
+Serial.println(vel);
  
 }
 }
 }
 
 ISR(TIMER2_OVF_vect) {
-   if (vel<=2000 && inter){
-      if (cuentaPasos<600){
+   if (vel<=1600 && inter){
+      if (cuentaPasos<100){
           cuentaPasos++;
       }else{
           cuentaPasos=0;
-          vel=vel+50;
+          vel=vel+10;
       }
-   }else{inter=false;
-      if (cuentaPasos<600){
+   }else if(vel<1150){inter=true;}
+   else{inter=false;
+      if (cuentaPasos<100){
           cuentaPasos++;
       }else{
           cuentaPasos=0;
-          vel=vel-50;
+          vel=vel-10;
       }
    }
   /*  
@@ -67,5 +70,5 @@ ISR(TIMER2_OVF_vect) {
 }
 if(contador<10000){
   contador++;
-}*/
+}/*/
 }
